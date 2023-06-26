@@ -1,0 +1,15 @@
+# This is the minimal working config. Because not specified otherwise, all runs in the project
+# that include the field "test_acc" will be exported as a numpy array to the directory "wandb_data".
+
+experiment1:
+  fields: ["evaluation_is_success", "simulation_steps"]
+  entity: zhouhongyi
+  project: STEP_BASED_BP_SAC
+
+  config:
+    out_dir:
+          values: ["results/sac_bp_Tsparse_new_ctrl0.02"]
+
+#  groups: ["ProDMP, bbrl final, 50 envs, 20seeds"]
+
+  output_path: /home/hongyi/Codes/alr_ma/wandb2numpy/wandb_data/bp_sac_sparse

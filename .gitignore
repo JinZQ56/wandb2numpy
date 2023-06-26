@@ -1,0 +1,6 @@
+.idea/
+build/
+wandb_data/
+**/__pycache__/
+*egg-info/
+*.tex

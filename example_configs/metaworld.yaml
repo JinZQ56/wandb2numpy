@@ -1,0 +1,15 @@
+# This is the minimal working config. Because not specified otherwise, all runs in the project
+# that include the field "test_acc" will be exported as a numpy array to the directory "wandb_data".
+
+experiment1:
+  fields: ["evaluation_success_mean", "num_global_steps"]
+  entity: gelikit
+  project: metaworld_bbrl_entire
+
+  config:
+    sampler.args.env_id:
+          values: ["AssemblyProDMP-v2"]
+
+  groups: ["ProDMP, bbrl final, 50 envs, 20seeds"]
+
+  output_path: /home/hongyi/Codes/alr_ma/wandb2numpy/wandb_data/metaworld_bbrl_prodmp

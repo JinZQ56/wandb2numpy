@@ -1,0 +1,64 @@
+# This is the minimal working config. Because not specified otherwise, all runs in the project
+# that include the field "test_acc" will be exported as a numpy array to the directory "wandb_data".
+
+experiment1:
+  fields: ["evaluation_success_mean", "num_global_steps"]
+  entity: gelikit
+  project: metaworld_bbrl_entire
+
+  config:
+    sampler.args.env_id:
+          values: ["AssemblyProDMP-v2"]
+
+  groups: ["ProDMP, apply relative and disable goal, 0.1 scale, fancy ec6f980e6, all envs"]
+
+  output_path: wandb_data/metaworld_seperate
+#            "PickOutOfHoleProDMP-v2",
+#            "PlateSlideProDMP-v2",
+#            "PlateSlideBackProDMP-v2",
+#            "PlateSlideSideProDMP-v2",
+#            "PlateSlideBackSideProDMP-v2",
+#            "BinPickingProDMP-v2",
+#            "HammerProDMP-v2",
+#            "SweepIntoProDMP-v2",
+#            "BoxCloseProDMP-v2",
+#            "ButtonPressProDMP-v2",
+#            "ButtonPressWallProDMP-v2",
+#            "ButtonPressTopdownProDMP-v2",
+#            "ButtonPressTopdownWallProDMP-v2",
+#            "CoffeeButtonProDMP-v2",
+#            "CoffeePullProDMP-v2",
+#            "CoffeePushProDMP-v2",
+#            "DialTurnProDMP-v2",
+#            "DisassembleProDMP-v2",
+#            "DoorCloseProDMP-v2",
+#            "DoorLockProDMP-v2",
+#            "DoorOpenProDMP-v2",
+#            "DoorUnlockProDMP-v2",
+#            "HandInsertProDMP-v2",
+#            "DrawerCloseProDMP-v2",
+#            "DrawerOpenProDMP-v2",
+#            "FaucetOpenProDMP-v2",
+#            "FaucetCloseProDMP-v2",
+#            "HandlePressSideProDMP-v2",
+#            "HandlePressProDMP-v2",
+#            "HandlePullSideProDMP-v2",
+#            "HandlePullProDMP-v2",
+#            "LeverPullProDMP-v2",
+#            "PegInsertSideProDMP-v2",
+#            "PickPlaceWallProDMP-v2",
+#            "ReachProDMP-v2",
+#            "PushBackProDMP-v2",
+#            "PushProDMP-v2",
+#            "PickPlaceProDMP-v2",
+#            "PegUnplugSideProDMP-v2",
+#            "SoccerProDMP-v2",
+#            "StickPushProDMP-v2",
+#            "StickPullProDMP-v2",
+#            "PushWallProDMP-v2",
+#            "ReachWallProDMP-v2",
+#            "ShelfPlaceProDMP-v2",
+#            "SweepProDMP-v2",
+#            "WindowOpenProDMP-v2",
+#            "WindowCloseProDMP-v2",
+#            "BasketballProDMP-v2"]
