@@ -71,15 +71,22 @@ def draw_box_pushing_iqm(is_success, simulation_steps, algorithm):
                                             algorithms=[algorithm], xlabel="Iteration", ylabel="IQM")
     # plt.show()
     tikzplotlib.get_tikz_code(figure=fig)
-    tikzplotlib.save("box_dense_bbrl_iqm.tex")
+    # tikzplotlib.save("box_dense_bbrl_iqm.tex")
     # tikzplotlib.save("box_dense_tcp_iqm.tex")
+    tikzplotlib.save("box_t_sparse_bbrl_iqm.tex")
+    # tikzplotlib.save("box_t_sparse_tcp_iqm.tex")
 
 
 if __name__ == "__main__":
     # BBRL Dense
-    is_success, simulation_steps = read_box_dense_world_data("/home/lige/Codes/wandb2numpy/wandb_data/box_dense_bbrl_prodmp")
+    # is_success, simulation_steps = read_box_dense_world_data("/home/lige/Codes/wandb2numpy/wandb_data/box_dense_bbrl_prodmp")
     # TCP Dense
     # is_success, simulation_steps = read_box_dense_world_data("/home/lige/Codes/wandb2numpy/wandb_data/box_dense_tcp_prodmp")
+
+    # BBRL T Sparse
+    is_success, simulation_steps = read_box_dense_world_data("/home/lige/Codes/wandb2numpy/wandb_data/box_temporal_sparse_bbrl_prodmp")
+    # TCP T Sparse
+    # is_success, simulation_steps = read_box_dense_world_data("/home/lige/Codes/wandb2numpy/wandb_data/box_temporal_sparse_tcp_prodmp")
 
     # draw the iqm curve
     reshaped_is_success = np.reshape(is_success, (-1, is_success.shape[-1]))
