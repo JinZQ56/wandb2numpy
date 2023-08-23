@@ -4,12 +4,16 @@
 experiment1:
   fields: ["evaluation_success_mean", "num_global_steps"]
   entity: gelikit
-  project: metaworld_bbrl_entire
+#  project: metaworld_bbrl_entire
+  project: metaworld_tcp_entire
 
   config:
     sampler.args.env_id:
           values: ["AssemblyProDMP-v2"]
 
-  groups: ["ProDMP, bbrl final, 50 envs, 20seeds"]
-
-  output_path: /home/hongyi/Codes/alr_ma/wandb2numpy/wandb_data/metaworld_bbrl_prodmp
+#  BBRL
+  groups: ["bbrl final, 50 envs, 20seeds"]
+  output_path: /home/lige/Codes/wandb2numpy/wandb_data/metaworld_bbrl_prodmp
+#  TCP
+#  groups: ["50envs, lr scheduler + gae"]
+#  output_path: /home/lige/Codes/wandb2numpy/wandb_data/metaworld_tcp_prodmp

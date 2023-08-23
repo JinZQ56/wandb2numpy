@@ -1,7 +1,11 @@
+import matplotlib
 import numpy as np
 import os
 
+import tikzplotlib
 from matplotlib import pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 from rliable import library as rly
 from rliable import metrics
 from rliable import plot_utils
@@ -27,14 +31,30 @@ def read_meta_world_data(data_path):
             simulation_steps_path = subdict + "/num_global_steps.npy"
             simulation_steps = np.load(simulation_steps_path)
             global_steps_list.append(simulation_steps)
+
+    b = np.zeros((4, 304))
+    a = is_success_list[21]
+    b[:3] = a
+    b[-1] = a[0]
+    is_success_list[21] = b
+
     is_success_array = np.array(is_success_list)
+
+
     is_success_array = np.swapaxes(is_success_array, 0, 1)
+
+    b = np.zeros((4, 304))
+    a = global_steps_list[21]
+    b[:3] = a
+    b[-1] = a[0]
+    global_steps_list[21] = b
+
     simulation_steps_array = np.array(global_steps_list)
     simulation_steps_array = np.swapaxes(simulation_steps_array, 0, 1)
 
     return is_success_array, simulation_steps_array
 
-def draw_peformance_profile(is_success, x_points=30):
+def draw_peformance_profile(is_success, x_points=11):
      is_success = is_success[:, :, -1]
      is_success = is_success[:, :, None]
      x_axis = np.linspace(0.0, 0.99, x_points)
@@ -44,9 +64,13 @@ def draw_peformance_profile(is_success, x_points=30):
      plot_utils.plot_performance_profiles(score_distributions, x_axis, performance_profile_cis=score_distribution_cis,
                                          xlabel='Success Rate',
                                          ax=ax)
-     plt.show()
+     # plt.show()
+
+     tikzplotlib.get_tikz_code(figure=fig)
+     tikzplotlib.save("metaworld_performance_profile.tex")
 
 def draw_metaworld_iqm(is_success, simulation_steps, algorithm):
+    fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
     num_frame = 20
     frames = np.floor(np.linspace(1, is_success.shape[-1], num_frame)).astype(int) - 1
 
@@ -59,10 +83,13 @@ def draw_metaworld_iqm(is_success, simulation_steps, algorithm):
     iqm_scores, iqm_cis = rly.get_interval_estimates(frames_scores_dict, iqm, reps=5000)
     plot_utils.plot_sample_efficiency_curve(simulation_steps[0, frames], iqm_scores, iqm_cis,
                                             algorithms=[algorithm], xlabel="Iteration", ylabel="IQM")
-    plt.show()
+    # plt.show()
+    tikzplotlib.get_tikz_code(figure=fig)
+    tikzplotlib.save("metaworld_iqm.tex")
+
 
 if __name__ == "__main__":
-    is_success, simulation_steps = read_meta_world_data("/home/hongyi/Codes/alr_ma/wandb2numpy/wandb_data/metaworld_bbrl_prodmp")
+    is_success, simulation_steps = read_meta_world_data("/home/lige/Codes/wandb2numpy/wandb_data/metaworld_tcp_prodmp")
 
     # draw the performance profile
     draw_peformance_profile(is_success)
