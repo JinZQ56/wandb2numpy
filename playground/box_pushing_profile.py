@@ -14,7 +14,7 @@ def get_immediate_subdirectories(a_dir):
     return [os.path.join(a_dir, name) for name in os.listdir(a_dir)
             if os.path.isdir(os.path.join(a_dir, name))]
 
-def read_meta_world_data(data_path):
+def read_box_dense_world_data(data_path):
 
     subdict_list = get_immediate_subdirectories(data_path)
 
@@ -22,9 +22,9 @@ def read_meta_world_data(data_path):
     global_steps_list = []
 
     for subdict in subdict_list:
-        subdict = subdict + "/experiment1"
-        if "evaluation_success_mean.npy" in os.listdir(subdict):
-            is_success_path = subdict + "/evaluation_success_mean.npy"
+        # subdict = subdict + "/experiment1"
+        if "evaluation_is_success_mean.npy" in os.listdir(subdict):
+            is_success_path = subdict + "/evaluation_is_success_mean.npy"
             is_success = np.load(is_success_path)
             is_success_list.append(is_success)
         if "num_global_steps.npy" in os.listdir(subdict):
@@ -54,22 +54,8 @@ def read_meta_world_data(data_path):
 
     return is_success_array, simulation_steps_array
 
-def draw_peformance_profile(is_success, x_points=11):
-     is_success = is_success[:, :, -1]
-     is_success = is_success[:, :, None]
-     x_axis = np.linspace(0.0, 0.99, x_points)
-     performance_dict = {"bbrl_prodmp": is_success}
-     score_distributions, score_distribution_cis = rly.create_performance_profile(performance_dict, x_axis)
-     fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
-     plot_utils.plot_performance_profiles(score_distributions, x_axis, performance_profile_cis=score_distribution_cis,
-                                         xlabel='Success Rate',
-                                         ax=ax)
-     # plt.show()
 
-     tikzplotlib.get_tikz_code(figure=fig)
-     tikzplotlib.save("metaworld_performance_bbrl_profile.tex")
-
-def draw_metaworld_iqm(is_success, simulation_steps, algorithm):
+def draw_box_pushing_iqm(is_success, simulation_steps, algorithm):
     fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
     num_frame = 20
     frames = np.floor(np.linspace(1, is_success.shape[-1], num_frame)).astype(int) - 1
@@ -85,17 +71,13 @@ def draw_metaworld_iqm(is_success, simulation_steps, algorithm):
                                             algorithms=[algorithm], xlabel="Iteration", ylabel="IQM")
     # plt.show()
     tikzplotlib.get_tikz_code(figure=fig)
-    tikzplotlib.save("metaworld_bbrl_iqm.tex")
+    tikzplotlib.save("box_dense_tcp_iqm.tex")
 
 
 if __name__ == "__main__":
-    # is_success, simulation_steps = read_meta_world_data("/home/lige/Codes/wandb2numpy/wandb_data/metaworld_tcp_prodmp")
-    is_success, simulation_steps = read_meta_world_data("/home/lige/Codes/wandb2numpy/wandb_data/metaworld_bbrl_prodmp")
-
-    # draw the performance profile
-    draw_peformance_profile(is_success)
+    is_success, simulation_steps = read_box_dense_world_data("/home/lige/Codes/wandb2numpy/wandb_data/box_dense_tcp_prodmp")
 
     # draw the iqm curve
     reshaped_is_success = np.reshape(is_success, (-1, is_success.shape[-1]))
     reshaped_simulation_steps = np.reshape(simulation_steps, (-1, simulation_steps.shape[-1]))
-    draw_metaworld_iqm(reshaped_is_success, reshaped_simulation_steps, "bbrl_prodmp")
+    draw_box_pushing_iqm(reshaped_is_success, reshaped_simulation_steps, "tcp_prodmp")
