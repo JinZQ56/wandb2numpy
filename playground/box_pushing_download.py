@@ -6,11 +6,11 @@ from wandb2numpy.save_experiment import create_output_dirs, save_matrix
 if __name__=="__main__":
     # BBRL Dense
     # default_config = "/home/lige/Codes/wandb2numpy/example_configs/box_dense_bbrl.yaml"
-    # # TCP Dense
-    # default_config = "/home/lige/Codes/wandb2numpy/example_configs/box_dense_tcp.yaml"
+    # TCP Dense
+    default_config = "/home/lige/Codes/wandb2numpy/example_configs/box_dense_tcp.yaml"
 
     # BBRL T Sparse
-    default_config = "/home/lige/Codes/wandb2numpy/example_configs/box_temporal_sparse_bbrl.yaml"
+    # default_config = "/home/lige/Codes/wandb2numpy/example_configs/box_temporal_sparse_bbrl.yaml"
     # TCP T Sparse
     # default_config = "/home/lige/Codes/wandb2numpy/example_configs/box_temporal_sparse_tcp.yaml"
 

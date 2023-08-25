@@ -4,11 +4,12 @@
 experiment1:
   fields: ["evaluation_is_success_mean", "num_global_steps"]
   entity: gelikit
-#  project: metaworld_bbrl_entire
-  project: box_dense_tcp_entire
+  project: box_dense_bbrl_entire
+#  project: box_dense_tcp_entire
 
   config:
     sampler.args.env_id:
           values: ["BoxPushingDenseProDMP-v0"]
-  groups: ["BBRL, new bp reward setting"]
+#  groups: ["BBRL, new bp reward setting"]
+  groups: ["BBRL, 20 seeds"]
   output_path: /home/lige/Codes/wandb2numpy/wandb_data/box_dense_bbrl_prodmp

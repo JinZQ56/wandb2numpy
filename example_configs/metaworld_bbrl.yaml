@@ -2,7 +2,7 @@
 # that include the field "test_acc" will be exported as a numpy array to the directory "wandb_data".
 
 experiment1:
-  fields: ["evaluation_success_mean", "num_global_steps"]
+  fields: ["evaluation_success_mean", "num_global_steps", "evaluation_episode_reward_mean"]
   entity: gelikit
 #  project: metaworld_bbrl_entire
   project: metaworld_tcp_entire

@@ -9,5 +9,5 @@ experiment1:
   config:
     sampler.args.env_id:
           values: ["BoxPushingTemporalSparseProDMPTCP-v0"]
-  groups: ["New bp reward setting"]
+  groups: ["TCP, 20 seeds"]
   output_path: /home/lige/Codes/wandb2numpy/wandb_data/box_temporal_sparse_tcp_prodmp

@@ -3,8 +3,7 @@ from wandb2numpy.export import export_data
 from wandb2numpy.save_experiment import create_output_dirs, save_matrix
 
 if __name__ == "__main__":
-    # default_config = "/home/hongyi/Codes/alr_ma/wandb2numpy/example_configs/metaworld.yaml"
-    default_config = "/home/lige/Codes/wandb2numpy/example_configs/metaworld.yaml"
+    default_config = "/home/lige/Codes/wandb2numpy/example_configs/metaworld_bbrl.yaml"
     env_name_list = ["AssemblyProDMP-v2",
                      "PickOutOfHoleProDMP-v2",
                      "PlateSlideProDMP-v2",

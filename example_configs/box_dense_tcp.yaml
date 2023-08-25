@@ -12,5 +12,5 @@ experiment1:
           values: ["BoxPushingDenseProDMPTCP-v0"]
     policy.args.mp.args.num_basis:
           values: [4]
-  groups: ["4, 8, 12 basis functions"]
+  groups: ["TCP 20 seeds"]
   output_path: /home/lige/Codes/wandb2numpy/wandb_data/box_dense_tcp_prodmp
