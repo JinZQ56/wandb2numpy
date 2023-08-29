@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -9,7 +11,7 @@ except ImportError:
 
 def extract_data(run, fields, config):
     max_samples = 12000
-    
+
     if fields == "all" or fields == ["all"]:
         # get history with only 1 sample, to extract all available field names
         dummy_history_all_fields = run.history(samples = 1, pandas=False)
@@ -19,10 +21,10 @@ def extract_data(run, fields, config):
             if "_step" in all_fields_list: all_fields_list.remove("_step")
             if "_runtime" in all_fields_list: all_fields_list.remove("_runtime")
             if "_timestamp" in all_fields_list: all_fields_list.remove("_timestamp")
-        else: 
+        else:
             all_fields_list = []
             tqdm.write("Warning: Current run contains no fields at all.")
-        
+
         fields = all_fields_list
 
     if 'history_samples' in config.keys():
@@ -66,7 +68,7 @@ def run_dict_to_field_dict(run_dict, config):
             max_steps = max([len(run) for run in non_empty_runs])
         else:
             max_steps = 0
-        
+
         print(f"Number of runs that include field {field}: {n_non_empty_runs}")
         output_array = np.zeros((n_non_empty_runs, max_steps))
         for k, run in enumerate(non_empty_runs):
@@ -115,3 +117,25 @@ def filter_match(config, filter_param, run_param):
         return True
     else:
         return run_param in config[filter_param]
+
+
+def smooth(scalars: np.ndarray, alpha: float) -> List[float]:  # Weight between 0 and 1
+
+    last = scalars[:, 0]  # First value in the plot (first timestep)
+    smoothed = np.empty_like(scalars)
+    for i in range(scalars.shape[1]):
+    # for i, point in enumerate(scalars):
+        smoothed_val = last * alpha + (1 - alpha) * scalars[:, i]  # Calculate smoothed value
+        smoothed[:, i] = last = smoothed_val  # Save it
+
+    return smoothed
+
+
+def moving_average_2d(data, window_size):
+    smoothed_data = np.empty_like(data)
+    window = np.ones(int(window_size))/float(window_size)
+
+    for i in range(data.shape[0]):
+        smoothed_data[i] = np.convolve(data[i], window, 'same')
+
+    return smoothed_data

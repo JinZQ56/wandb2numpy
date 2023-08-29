@@ -5,6 +5,9 @@ import os
 import tikzplotlib
 from matplotlib import pyplot as plt
 import matplotlib
+
+from wandb2numpy import util
+
 matplotlib.use('TkAgg')
 from rliable import library as rly
 from rliable import metrics
@@ -57,7 +60,7 @@ def read_box_dense_world_data(data_path):
 
 def draw_box_pushing_iqm(is_success, simulation_steps, algorithm):
     fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
-    num_frame = 15
+    num_frame = 50
     frames = np.floor(np.linspace(1, is_success.shape[-1], num_frame)).astype(int) - 1
 
     is_success = is_success[:, None, :]
@@ -94,5 +97,7 @@ if __name__ == "__main__":
 
     # draw the iqm curve
     reshaped_is_success = np.reshape(is_success, (-1, is_success.shape[-1]))
+    smooth_reshaped_is_success = util.smooth(reshaped_is_success, 0.5)
     reshaped_simulation_steps = np.reshape(simulation_steps, (-1, simulation_steps.shape[-1]))
-    draw_box_pushing_iqm(reshaped_is_success, reshaped_simulation_steps, None)
+    # draw_box_pushing_iqm(reshaped_is_success, reshaped_simulation_steps, None)
+    draw_box_pushing_iqm(smooth_reshaped_is_success, reshaped_simulation_steps, None)
