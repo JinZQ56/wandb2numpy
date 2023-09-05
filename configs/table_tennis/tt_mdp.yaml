@@ -4,7 +4,7 @@ DEFAULT:
   fields: ["num_global_steps", "eval/is_success", "eval/hit_ball", "eval/reward"]
   output_path: /home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp
 
-tt_mdp_mp3_bb:
+mp3_bb:
   groups: ["mprl-mp3-bb"]
   tags: [["pomdp_2nd"]]
   config:
@@ -13,7 +13,7 @@ tt_mdp_mp3_bb:
                 "TableTennisMDPReplanProDMP-v0",
                 "TableTennisMDPReplanProDMPIA-v0" ]
 
-tt_mdp_mp3_rp:
+mp3_rp:
   groups: ["mprl-mp3-rp"]
   tags: [["pomdp_2nd"]]
   config:
@@ -22,7 +22,7 @@ tt_mdp_mp3_rp:
                 "TableTennisMDPReplanProDMP-v0",
                 "TableTennisMDPReplanProDMPIA-v0" ]
 
-tt_mdp_mp3_rp_gpt:
+mp3_rp_gpt:
   groups: ["mprl-mp3-rp-gpt"]
   tags: [["pomdp_2nd"]]
   config:
@@ -31,7 +31,7 @@ tt_mdp_mp3_rp_gpt:
                 "TableTennisMDPReplanProDMP-v0",
                 "TableTennisMDPReplanProDMPIA-v0" ]
 
-tt_mdp_mp3_rp_rnn:
+mp3_rp_rnn:
   groups: ["mprl-mp3-rp-rnn"]
   tags: [["pomdp_2nd"]]
   config:

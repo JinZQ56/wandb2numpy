@@ -67,10 +67,15 @@ def read_tt_data(_path: str):
     return _ep_reward_dict, _is_success_dict, _is_hit_ball_dict, _global_steps_dict, _names
 
 
-def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 40, method=None, label=None):
+def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35, method=None, label=None):
     fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
     color_palette = sns.color_palette('colorblind', n_colors=len(_names))
     colors = dict(zip(names, color_palette))
+    colors = {
+              'mp3_rp_gpt': (0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
+              'mp3_rp_rnn': (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
+              'mp3_rp': (0.00784313725490196, 0.6196078431372549, 0.45098039215686275),
+              'mp3_bb': (0.8352941176470589, 0.3686274509803922, 0.0)}
     iqm = lambda scores: np.array([metrics.aggregate_iqm(scores[..., frame]) for frame in range(scores.shape[-1])])
     for _name in _names:
         _frames = np.floor(np.linspace(1, _metric[_name].shape[-1], _num_frame)).astype(int) - 1
@@ -80,7 +85,7 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 40,
         _metric[name][mask] = 0.0
         frames_scores_dict = {_name: _metric[_name]}
         iqm_scores, iqm_cis = rly.get_interval_estimates(frames_scores_dict, iqm, reps=5000)
-        _s = _steps[name][0, _frames]
+        _s = _steps[_name][0, _frames]
         ax = plot_utils.plot_sample_efficiency_curve(_s,
                                                 iqm_scores,
                                                 iqm_cis,
@@ -95,7 +100,11 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 40,
 
 
 if __name__ == "__main__":
-    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_wind"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_noise"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_vel"
+    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_entry"
     reward_dict, success_dict, hitting_dict, steps_dict, names = read_tt_data(data_path)
 
     smooth_reshaped_reward_dict = {}
