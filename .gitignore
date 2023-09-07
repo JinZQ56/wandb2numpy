@@ -4,3 +4,6 @@ wandb_data/
 **/__pycache__/
 *egg-info/
 *.tex
+/scripts/tex/
+/scripts/pdf/
+/scripts/svg/

@@ -67,16 +67,17 @@ def read_tt_data(_path: str):
     return _ep_reward_dict, _is_success_dict, _is_hit_ball_dict, _global_steps_dict, _names
 
 
-def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35, method=None, label=None):
-    fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
+def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35, env='mdp', label=None):
+    # fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
+    fig, ax = plt.subplots()
     color_palette = sns.color_palette('colorblind', n_colors=len(_names))
     colors = dict(zip(names, color_palette))
-    colors = {
-              'mp3_rp_gpt': (0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
+    colors = {'mp3_rp_gpt': (0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
               'mp3_rp_rnn': (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
               'mp3_rp': (0.00784313725490196, 0.6196078431372549, 0.45098039215686275),
               'mp3_bb': (0.8352941176470589, 0.3686274509803922, 0.0)}
     iqm = lambda scores: np.array([metrics.aggregate_iqm(scores[..., frame]) for frame in range(scores.shape[-1])])
+    s = []
     for _name in _names:
         _frames = np.floor(np.linspace(1, _metric[_name].shape[-1], _num_frame)).astype(int) - 1
         _metric[_name] = _metric[_name][:, None, :]
@@ -86,17 +87,26 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
         frames_scores_dict = {_name: _metric[_name]}
         iqm_scores, iqm_cis = rly.get_interval_estimates(frames_scores_dict, iqm, reps=5000)
         _s = _steps[_name][0, _frames]
+        if len(s) > 0:
+            s = _s if s[-1] < _s[-1] else s
+        else:
+            s = _s
         ax = plot_utils.plot_sample_efficiency_curve(_s,
-                                                iqm_scores,
-                                                iqm_cis,
-                                                ax=ax,
-                                                colors={_name: colors[_name]},
-                                                algorithms=[_name],
-                                                xlabel="Global Steps",
-                                                ylabel="IQM")
-    plt.show()
+                                                     iqm_scores,
+                                                     iqm_cis,
+                                                     ax=ax,
+                                                     colors={_name: colors[_name]},
+                                                     algorithms=[_name],
+                                                     xlabel="",
+                                                     ylabel=""
+                                                     )
+    ax.plot(s, [0.86] * len(s), '--', color='red')
+    # ax.set_xlabel('steps', fontsize=10)
+    # ax.set_ylabel('success rate', fontsize=10)
+    # plt.show()
+    plt.savefig(f"./svg/table_tennis_{env}_iqm_{label}.svg")
     # tikzplotlib.get_tikz_code(figure=fig)
-    # tikzplotlib.save(f"table_tennis_{method}_{label}_iqm.tex")
+    # tikzplotlib.save(f"./tex/ttable_tennis_{env}_iqm_{label}.tex")
 
 
 if __name__ == "__main__":
@@ -133,6 +143,7 @@ if __name__ == "__main__":
         reshaped_steps = np.reshape(steps, (-1, steps.shape[-1]))
         reshaped_steps_dict[name] = reshaped_steps
 
+    # env_type = data_path.split('/')[-1].split('_')[-1]
     # draw_tt_iqm(smooth_reshaped_reward, reshaped_global_steps, None)
     # draw_tt_iqm(smooth_reshaped_hitting, reshaped_global_steps, None)
-    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names)
+    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='mask_entry', label='success')
