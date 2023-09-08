@@ -5,16 +5,16 @@ DEFAULT:
            "eval/box_goal_pos_dist", "eval/box_goal_rot_dist"]
   output_path: /home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_noise
 
-mp3_bb:
-  groups: ["mprl-mp3-bb"]
-  tags: [["pomdp_1st"]]
-  config:
-    sampler.args.env_id:
-      values: [ "BoxPushingTSNoiseProMP-v0",
-                "BoxPushingTSNoiseReplanProDMP-v0",
-                "BoxPushingTSNoiseReplanProDMPIA-v0" ]
+#mp3_bb:
+#  groups: ["mprl-mp3-bb"]
+#  tags: [["pomdp_1st"]]
+#  config:
+#    sampler.args.env_id:
+#      values: [ "BoxPushingTSNoiseProMP-v0",
+#                "BoxPushingTSNoiseReplanProDMP-v0",
+#                "BoxPushingTSNoiseReplanProDMPIA-v0" ]
 
-mp3_rp:
+mprl-mp3-rp:
   groups: ["mprl-mp3-rp"]
   tags: [["pomdp_1st"]]
   config:
@@ -23,7 +23,7 @@ mp3_rp:
                 "BoxPushingTSNoiseReplanProDMP-v0",
                 "BoxPushingTSNoiseReplanProDMPIA-v0" ]
 
-mp3_rp_gpt:
+mprl-mp3-rp-gpt:
   groups: ["mprl-mp3-rp-gpt"]
   tags: [["pomdp_1st"]]
   config:
@@ -32,7 +32,7 @@ mp3_rp_gpt:
                 "BoxPushingTSNoiseReplanProDMP-v0",
                 "BoxPushingTSNoiseReplanProDMPIA-v0" ]
 
-mp3_rp_rnn:
+mprl-mp3-rp-rnn:
   groups: ["mprl-mp3-rp-rnn"]
   tags: [["pomdp_1st"]]
   config:

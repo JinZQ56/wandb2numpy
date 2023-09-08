@@ -76,6 +76,10 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
               'mp3_rp_rnn': (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
               'mp3_rp': (0.00784313725490196, 0.6196078431372549, 0.45098039215686275),
               'mp3_bb': (0.8352941176470589, 0.3686274509803922, 0.0)}
+    # colors = {'mp3_rp_gpt': (0.00784313725490196, 0.6196078431372549, 0.45098039215686275),
+    #           'mp3_rp_rnn': (0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
+    #           'mp3_rp': (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
+    #           'mp3_bb': (0.8352941176470589, 0.3686274509803922, 0.0)}
     iqm = lambda scores: np.array([metrics.aggregate_iqm(scores[..., frame]) for frame in range(scores.shape[-1])])
     s = []
     for _name in _names:
@@ -100,7 +104,7 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
                                                      xlabel="",
                                                      ylabel=""
                                                      )
-    ax.plot(s, [0.86] * len(s), '--', color='red')
+    ax.plot(s, [0.90] * len(s), '--', color='red', linewidth=2)
     # ax.set_xlabel('steps', fontsize=10)
     # ax.set_ylabel('success rate', fontsize=10)
     # plt.show()

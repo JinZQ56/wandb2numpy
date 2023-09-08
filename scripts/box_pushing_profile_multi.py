@@ -39,9 +39,9 @@ def read_tt_data(_path: str):
             _is_success = np.load(subdict + "/eval/is_success.npy")
             _is_success_dict[_name] = _is_success
 
-        if "hit_ball.npy" in os.listdir(subdict + '/eval'):
-            _is_hit_ball = np.load(subdict + "/eval/is_success.npy")
-            _is_hit_ball_dict[_name] = _is_hit_ball
+        # if "hit_ball.npy" in os.listdir(subdict + '/eval'):
+        #     _is_hit_ball = np.load(subdict + "/eval/is_success.npy")
+        #     _is_hit_ball_dict[_name] = _is_hit_ball
 
         if "num_global_steps.npy" in os.listdir(subdict):
             _global_steps = np.load(subdict + "/num_global_steps.npy")
@@ -56,9 +56,9 @@ def read_tt_data(_path: str):
         # _is_success_array = np.swapaxes(_is_success_array, 0, 1)
         _is_success_dict[_name] = _is_success_array
 
-        _is_hit_ball_array = np.array(_is_hit_ball_dict[_name])
-        # _is_hit_ball_array = np.swapaxes(_is_hit_ball_array, 0, 1)
-        _is_hit_ball_dict[_name] = _is_hit_ball_array
+        # _is_hit_ball_array = np.array(_is_hit_ball_dict[_name])
+        # # _is_hit_ball_array = np.swapaxes(_is_hit_ball_array, 0, 1)
+        # _is_hit_ball_dict[_name] = _is_hit_ball_array
 
         _global_steps_array = np.array(_global_steps_dict[_name])
         # _global_steps_array = np.swapaxes(_global_steps_array, 0, 1)
@@ -72,10 +72,10 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
     fig, ax = plt.subplots()
     color_palette = sns.color_palette('colorblind', n_colors=len(_names))
     colors = dict(zip(names, color_palette))
-    colors = {'mp3_rp_gpt': (0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
-              'mp3_rp_rnn': (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
-              'mp3_rp': (0.00784313725490196, 0.6196078431372549, 0.45098039215686275),
-              'mp3_bb': (0.8352941176470589, 0.3686274509803922, 0.0)}
+    colors = {'mprl-mp3-rp-gpt': (0.00392156862745098, 0.45098039215686275, 0.6980392156862745),
+              'mprl-mp3-rp-rnn': (0.8705882352941177, 0.5607843137254902, 0.0196078431372549),
+              'mprl-mp3-rp': (0.00784313725490196, 0.6196078431372549, 0.45098039215686275),
+              'mprl-mp3-bb': (0.8352941176470589, 0.3686274509803922, 0.0)}
     iqm = lambda scores: np.array([metrics.aggregate_iqm(scores[..., frame]) for frame in range(scores.shape[-1])])
     s = []
     for _name in _names:
@@ -100,21 +100,21 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
                                                      xlabel="",
                                                      ylabel=""
                                                      )
-    ax.plot(s, [0.86] * len(s), '--', color='red')
+    ax.plot(s, [0.78] * len(s), '--', color='red', linewidth=2)
     # ax.set_xlabel('steps', fontsize=10)
     # ax.set_ylabel('success rate', fontsize=10)
     # plt.show()
-    plt.savefig(f"./svg/table_tennis_{env}_iqm_{label}.svg")
+    plt.savefig(f"./svg/box_pushing_{env}_iqm_{label}.svg")
     # tikzplotlib.get_tikz_code(figure=fig)
     # tikzplotlib.save(f"./tex/ttable_tennis_{env}_iqm_{label}.tex")
 
 
 if __name__ == "__main__":
     # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_wind"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_noise"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_vel"
-    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_entry"
+    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_size"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_noise"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_vel"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_entry"
     reward_dict, success_dict, hitting_dict, steps_dict, names = read_tt_data(data_path)
 
     smooth_reshaped_reward_dict = {}
@@ -129,10 +129,10 @@ if __name__ == "__main__":
         smooth_reshaped_reward = util.smooth(reshaped_reward, 0.6)
         smooth_reshaped_reward_dict[name] = smooth_reshaped_reward
 
-        hitting = hitting_dict[name]
-        reshaped_hitting = np.reshape(hitting, (-1, hitting.shape[-1]))
-        smooth_reshaped_hitting = util.smooth(reshaped_hitting, 0.1)
-        smooth_reshaped_hitting_dict[name] = smooth_reshaped_hitting
+        # hitting = hitting_dict[name]
+        # reshaped_hitting = np.reshape(hitting, (-1, hitting.shape[-1]))
+        # smooth_reshaped_hitting = util.smooth(reshaped_hitting, 0.1)
+        # smooth_reshaped_hitting_dict[name] = smooth_reshaped_hitting
 
         success = success_dict[name]
         reshaped_success = np.reshape(success, (-1, success.shape[-1]))
@@ -146,4 +146,4 @@ if __name__ == "__main__":
     # env_type = data_path.split('/')[-1].split('_')[-1]
     # draw_tt_iqm(smooth_reshaped_reward, reshaped_global_steps, None)
     # draw_tt_iqm(smooth_reshaped_hitting, reshaped_global_steps, None)
-    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='mask_entry', label='success')
+    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='size', label='success')
