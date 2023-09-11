@@ -5,14 +5,14 @@ DEFAULT:
            "eval/box_goal_pos_dist", "eval/box_goal_rot_dist"]
   output_path: /home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_vel
 
-#mp3_bb:
-#  groups: ["mprl-mp3-bb"]
-#  tags: [["pomdp_1st"]]
-#  config:
-#    sampler.args.env_id:
-#      values: [ "BoxPushingTSMaskVelProMP-v0",
-#                "BoxPushingTSMaskVelReplanProDMP-v0",
-#                "BoxPushingTSMaskVelReplanProDMPIA-v0" ]
+mprl-mp3-bb:
+  groups: ["mprl-mp3-bb"]
+  tags: [["pomdp_1st"]]
+  config:
+    sampler.args.env_id:
+      values: [ "BoxPushingTSMDPProMP-v0",
+                "BoxPushingTSMaskVelReplanProDMP-v0",
+                "BoxPushingTSMaskVelReplanProDMPIA-v0" ]
 
 mprl-mp3-rp:
   groups: ["mprl-mp3-rp"]

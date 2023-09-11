@@ -100,7 +100,7 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
                                                      xlabel="",
                                                      ylabel=""
                                                      )
-    ax.plot(s, [0.78] * len(s), '--', color='red', linewidth=2)
+    ax.plot(s, [0.82] * len(s), '--', color='red', linewidth=2)
     # ax.set_xlabel('steps', fontsize=10)
     # ax.set_ylabel('success rate', fontsize=10)
     # plt.show()
@@ -110,11 +110,11 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
 
 
 if __name__ == "__main__":
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp"
-    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_size"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mdp"
+    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_size"
     # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_noise"
     # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_vel"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_entry"
+    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_entry"
     reward_dict, success_dict, hitting_dict, steps_dict, names = read_tt_data(data_path)
 
     smooth_reshaped_reward_dict = {}
@@ -146,4 +146,4 @@ if __name__ == "__main__":
     # env_type = data_path.split('/')[-1].split('_')[-1]
     # draw_tt_iqm(smooth_reshaped_reward, reshaped_global_steps, None)
     # draw_tt_iqm(smooth_reshaped_hitting, reshaped_global_steps, None)
-    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='size', label='success')
+    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='mask_entry', label='success')
