@@ -24,7 +24,7 @@ def read_tt_data(_path: str):
 
     _ep_reward_dict = {}
     _is_success_dict = {}
-    _is_hit_ball_dict = {}
+    _ep_energy_dict = {}
     _global_steps_dict = {}
     _names = []
 
@@ -39,9 +39,9 @@ def read_tt_data(_path: str):
             _is_success = np.load(subdict + "/eval/is_success.npy")
             _is_success_dict[_name] = _is_success
 
-        # if "hit_ball.npy" in os.listdir(subdict + '/eval'):
-        #     _is_hit_ball = np.load(subdict + "/eval/is_success.npy")
-        #     _is_hit_ball_dict[_name] = _is_hit_ball
+        if "episode_energy.npy" in os.listdir(subdict + '/eval'):
+            _ep_energy = np.load(subdict + "/eval/episode_energy.npy")
+            _ep_energy_dict[_name] = _ep_energy
 
         if "num_global_steps.npy" in os.listdir(subdict):
             _global_steps = np.load(subdict + "/num_global_steps.npy")
@@ -56,15 +56,15 @@ def read_tt_data(_path: str):
         # _is_success_array = np.swapaxes(_is_success_array, 0, 1)
         _is_success_dict[_name] = _is_success_array
 
-        # _is_hit_ball_array = np.array(_is_hit_ball_dict[_name])
+        _ep_energy_array = np.array(_ep_energy_dict[_name])
         # # _is_hit_ball_array = np.swapaxes(_is_hit_ball_array, 0, 1)
-        # _is_hit_ball_dict[_name] = _is_hit_ball_array
+        _ep_energy_dict[_name] = _ep_energy_array
 
         _global_steps_array = np.array(_global_steps_dict[_name])
         # _global_steps_array = np.swapaxes(_global_steps_array, 0, 1)
         _global_steps_dict[_name] = _global_steps_array
 
-    return _ep_reward_dict, _is_success_dict, _is_hit_ball_dict, _global_steps_dict, _names
+    return _ep_reward_dict, _is_success_dict, _ep_energy_dict, _global_steps_dict, _names
 
 
 def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35, env='mdp', label=None):
@@ -100,27 +100,33 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
                                                      xlabel="",
                                                      ylabel=""
                                                      )
-    ax.plot(s, [0.82] * len(s), '--', color='red', linewidth=2)
+    if label == 'reward':
+        ax.plot(s, [-26] * len(s), color='red', linewidth=2)
+    elif label == 'energy':
+        ax.plot(s, [3400] * len(s), color='red', linewidth=2)
+    elif label == 'success':
+        ax.plot(s, [0.82] * len(s), color='red', linewidth=2)
     # ax.set_xlabel('steps', fontsize=10)
     # ax.set_ylabel('success rate', fontsize=10)
     # plt.show()
-    plt.savefig(f"./svg/box_pushing_{env}_iqm_{label}.svg")
-    # tikzplotlib.get_tikz_code(figure=fig)
-    # tikzplotlib.save(f"./tex/ttable_tennis_{env}_iqm_{label}.tex")
+    # plt.savefig(f"./svg/box_pushing_{env}_iqm_{label}.svg")
+    tikzplotlib.get_tikz_code(figure=fig)
+    tikzplotlib.save(f"./tex/box_pushing_{env}_iqm_{label}.tex")
 
 
 if __name__ == "__main__":
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mdp"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_size"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_noise"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_vel"
-    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_entry"
-    reward_dict, success_dict, hitting_dict, steps_dict, names = read_tt_data(data_path)
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/box_pushing/bp_mdp"
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/box_pushing/bp_size"
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/box_pushing/bp_noise"
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_vel"
+    data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/box_pushing/bp_mask_entry"
+    reward_dict, success_dict, energy_dict, steps_dict, _ = read_tt_data(data_path)
 
     smooth_reshaped_reward_dict = {}
-    smooth_reshaped_hitting_dict = {}
+    smooth_reshaped_energy_dict = {}
     smooth_reshaped_success_dict = {}
     reshaped_steps_dict = {}
+    names = ['mprl-mp3-bb', 'mprl-mp3-rp', 'mprl-mp3-rp-rnn', 'mprl-mp3-rp-gpt']
 
     for name in names:
         # draw the iqm curve
@@ -129,10 +135,10 @@ if __name__ == "__main__":
         smooth_reshaped_reward = util.smooth(reshaped_reward, 0.6)
         smooth_reshaped_reward_dict[name] = smooth_reshaped_reward
 
-        # hitting = hitting_dict[name]
-        # reshaped_hitting = np.reshape(hitting, (-1, hitting.shape[-1]))
-        # smooth_reshaped_hitting = util.smooth(reshaped_hitting, 0.1)
-        # smooth_reshaped_hitting_dict[name] = smooth_reshaped_hitting
+        energy = energy_dict[name]
+        reshaped_energy = np.reshape(energy, (-1, energy.shape[-1]))
+        smooth_reshaped_energy = util.smooth(reshaped_energy, 0.1)
+        smooth_reshaped_energy_dict[name] = smooth_reshaped_energy
 
         success = success_dict[name]
         reshaped_success = np.reshape(success, (-1, success.shape[-1]))
@@ -143,7 +149,7 @@ if __name__ == "__main__":
         reshaped_steps = np.reshape(steps, (-1, steps.shape[-1]))
         reshaped_steps_dict[name] = reshaped_steps
 
-    # env_type = data_path.split('/')[-1].split('_')[-1]
-    # draw_tt_iqm(smooth_reshaped_reward, reshaped_global_steps, None)
-    # draw_tt_iqm(smooth_reshaped_hitting, reshaped_global_steps, None)
-    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='mask_entry', label='success')
+    env_type = data_path.split('/')[-1]
+    draw_tt_iqm(smooth_reshaped_reward_dict, reshaped_steps_dict, names, env=env_type, label='reward')
+    draw_tt_iqm(smooth_reshaped_energy_dict, reshaped_steps_dict, names, env=env_type, label='energy')
+    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env=env_type, label='success')

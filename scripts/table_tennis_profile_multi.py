@@ -104,27 +104,33 @@ def draw_tt_iqm(_metric: dict, _steps: dict, _names: list, _num_frame: int = 35,
                                                      xlabel="",
                                                      ylabel=""
                                                      )
-    ax.plot(s, [0.90] * len(s), '--', color='red', linewidth=2)
+    if label == 'reward':
+        ax.plot(s, [6.86] * len(s), color='red', linewidth=2)
+    elif label == 'hitting':
+        ax.plot(s, [0.92] * len(s), color='red', linewidth=2)
+    elif label == 'success':
+        ax.plot(s, [0.90] * len(s), color='red', linewidth=2)
     # ax.set_xlabel('steps', fontsize=10)
     # ax.set_ylabel('success rate', fontsize=10)
     # plt.show()
-    plt.savefig(f"./svg/table_tennis_{env}_iqm_{label}.svg")
-    # tikzplotlib.get_tikz_code(figure=fig)
-    # tikzplotlib.save(f"./tex/ttable_tennis_{env}_iqm_{label}.tex")
+    # plt.savefig(f"./svg/table_tennis_{env}_iqm_{label}.svg")
+    tikzplotlib.get_tikz_code(figure=fig)
+    tikzplotlib.save(f"./tex/table_tennis_{env}_iqm_{label}.tex")
 
 
 if __name__ == "__main__":
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_wind"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_noise"
-    # data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_vel"
-    data_path = "/home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_entry"
-    reward_dict, success_dict, hitting_dict, steps_dict, names = read_tt_data(data_path)
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/table_tennis/tt_mdp"
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/table_tennis/tt_wind"
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/table_tennis/tt_noise"
+    # data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_vel"
+    data_path = "/home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/table_tennis/tt_mask_entry"
+    reward_dict, success_dict, hitting_dict, steps_dict, _ = read_tt_data(data_path)
 
     smooth_reshaped_reward_dict = {}
     smooth_reshaped_hitting_dict = {}
     smooth_reshaped_success_dict = {}
     reshaped_steps_dict = {}
+    names = ['mp3_bb', 'mp3_rp', 'mp3_rp_rnn', 'mp3_rp_gpt']
 
     for name in names:
         # draw the iqm curve
@@ -147,7 +153,7 @@ if __name__ == "__main__":
         reshaped_steps = np.reshape(steps, (-1, steps.shape[-1]))
         reshaped_steps_dict[name] = reshaped_steps
 
-    # env_type = data_path.split('/')[-1].split('_')[-1]
-    # draw_tt_iqm(smooth_reshaped_reward, reshaped_global_steps, None)
-    # draw_tt_iqm(smooth_reshaped_hitting, reshaped_global_steps, None)
-    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env='mask_entry', label='success')
+    env_type = data_path.split('/')[-1]
+    draw_tt_iqm(smooth_reshaped_reward_dict, reshaped_steps_dict, names, env=env_type, label='reward')
+    draw_tt_iqm(smooth_reshaped_hitting_dict, reshaped_steps_dict, names, env=env_type, label='hitting')
+    draw_tt_iqm(smooth_reshaped_success_dict, reshaped_steps_dict, names, env=env_type, label='success')

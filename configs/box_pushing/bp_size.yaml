@@ -3,7 +3,7 @@ DEFAULT:
   project: mprl-box-pushing-clean
   fields: ["num_global_steps", "eval/reward", "eval/is_success", "eval/episode_energy",
            "eval/box_goal_pos_dist", "eval/box_goal_rot_dist"]
-  output_path: /home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/box_pushing/bp_size
+  output_path: /home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/box_pushing/bp_size
 
 mprl-mp3-bb:
   groups: ["mprl-mp3-bb"]

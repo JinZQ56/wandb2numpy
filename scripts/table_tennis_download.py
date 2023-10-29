@@ -5,11 +5,11 @@ from wandb2numpy.save_experiment import create_output_dirs, save_matrix
 
 if __name__ == "__main__":
     # MP3
-    # config_path = "../configs/table_tennis/tt_mdp.yaml"
+    config_path = "../configs/table_tennis/tt_mdp.yaml"
     # config_path = "../configs/table_tennis/tt_wind.yaml"
     # config_path = "../configs/table_tennis/tt_noise.yaml"
     # config_path = "../configs/table_tennis/tt_mask_vel.yaml"
-    config_path = "../configs/table_tennis/tt_mask_entry.yaml"
+    # config_path = "../configs/table_tennis/tt_mask_entry.yaml"
 
     config = load_config(config_path)
     experiment_data_dict, config_list = export_data(config)

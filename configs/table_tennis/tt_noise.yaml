@@ -2,7 +2,7 @@ DEFAULT:
   entity: jzq
   project: mprl-table-tennis
   fields: ["num_global_steps", "eval/is_success", "eval/hit_ball", "eval/reward"]
-  output_path: /home/zeqi_jin/Desktop/thesis/code/wandb2numpy/wandb_data/table_tennis/tt_noise
+  output_path: /home/zeqi_jin/Desktop/MasterThesis/code/wandb2numpy/wandb_data/table_tennis/tt_noise
 
 mp3_bb:
   groups: ["mprl-mp3-bb"]
